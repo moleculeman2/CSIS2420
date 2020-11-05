@@ -1,38 +1,62 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class LinkedListDemo2
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		
-		
-		
+		long startTime = System.nanoTime();
+		String dataFile = "C:\\Stuff\\AccountNumbers.csv";
+		BufferedReader reader = new BufferedReader(new FileReader(dataFile));
+		int numLines = 0;
+		BufferedReader br = null;
+
+		// Count the number of lines in the data file
+		System.out.print("Counting lines in the data file ... ");
+		while (reader.readLine() != null)
+			numLines++;
+		reader.close();
+		System.out.println(numLines);
+
+		// Get data set from file and load array with values
+		System.out.println("Building array from the data file ...");
+		br = new BufferedReader(new FileReader(dataFile));
+
 		LinkedList2 ll = new LinkedList2();
-		ll.append(5,"Lester","Scroggs",43.56);
-		ll.append(6,"Bert","Smith",27.99);
-		ll.append(8,"Bob","Jones",45.92);
-		ll.append(9,"Sally","Gomez",84.17);
-		ll.append(1,"Mario","Plumm",20.00);
-		ll.printList();
-		System.out.println("\tList Length: " + ll.length());
-		ll.prepend(2,"Ralph","Martinez",56.29);
-		ll.printList();
-		System.out.println("\tList Length: " + ll.length());
-		ll.deleteWithValue(8);
-		ll.deleteWithValue(2);
-		ll.deleteWithValue(1);
-		ll.printList();
-		System.out.println("\tList Length: " + ll.length());
-		// Search by Key
-		System.out.println("\nSearch by Key Result: " + ll.searchList(9));
-		System.out.println("Search by Key Result: " + ll.searchList(5));
-		System.out.println("Search by Key Result: " + ll.searchList(99));
-		// Search by fname & lname (inclusive)
-		System.out.println("\nSearch by Name Result: " + ll.searchList("Sally", "Gomez"));
-		System.out.println("Search by Name Result: " + ll.searchList("Bert", "Smith"));
-		System.out.println("Search by Name Result: " + ll.searchList("Daffy", "Duck"));
-		// Search by balance
-		System.out.println("\nSearch by Balance Result: " + ll.searchList(43.56));
-		System.out.println("Search by Balance Result: " + ll.searchList(99.99));
 		
+		startTime = System.nanoTime();
+		for (int i = 0; i < numLines; i++)
+		{
+			ll.append(Integer.parseInt(br.readLine()));
+		}
+		timeConvert(startTime, "initialize");
+		
+		//measure traversal time
+		startTime = System.nanoTime();
+		System.out.println("Total size: " + ll.length());
+		timeConvert(startTime, "traversal");
+		
+		//measure search time
+		startTime = System.nanoTime();
+		System.out.println("Index of 838399: " + ll.searchList(838399));
+		timeConvert(startTime, "search");
+		
+		//measure append time
+		startTime = System.nanoTime();
+		ll.insert(true, 0, "", "", 0);
+		timeConvert(startTime, "append");
+		
+		ll = null;		
+		br.close();
+	}
+
+	private static void timeConvert(long startTime, String s)
+	{
+		startTime = System.nanoTime() - startTime;
+		float converted = (float) ((startTime) / 1000000.0);
+		converted = (float) (Math.round(converted * 1000.0) / 1000.0);
+		System.out.println(s + " total Time: " + converted + "ms");
 	}
 }

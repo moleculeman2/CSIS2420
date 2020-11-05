@@ -8,7 +8,7 @@ public class GenRandAccounts
 		String dataFile = "AccountNumbers.csv";
 		int min = 100000;
 		int max = 999999;
-		int numAccounts = 10;
+		int numAccounts = 600000;
 		Random rand = new Random();
 	    try 
 	    { 

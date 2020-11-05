@@ -20,6 +20,22 @@ public class LinkedList2
 		current.next = new Node2(key, fname, lname, balance);
 	}
 	
+	
+	public void append(int key)
+	{
+		if (head == null)
+		{
+			head = new Node2(key, "", "", 0);
+			return;
+		}
+		Node2 current = head;
+		while (current.next != null)
+		{
+			current = current.next;
+		}
+		current.next = new Node2(key, "", "", 0);
+	}
+	
 	public void prepend(int key, String fname, String lname, double balance)
 	{
 		Node2 newHead = new Node2(key, fname, lname, balance);
@@ -39,7 +55,7 @@ public class LinkedList2
 			return;
 		}
 		
-		if (head.key == key && before)  //always use before = true until other method re-enabled
+		if (head.key == key && before)  //always use before = true until "after" portion re-enabled
 		{
 			current = head; 							//current and head point to same node
 			head = new Node2(key, fname, lname, balance);	//head points to newly created node
@@ -47,15 +63,14 @@ public class LinkedList2
 			return;
 		}
 		
-		/**  //removed for performance sake, will re-add later
+		/**  removed for performance sake, will re-add later (inserts after)
 		if (head.key == key && !before)
 		{
 			current = head.next; 							//current and pointer after head point to same node
 			head.next = new Node2(key, fname, lname, balance);	//pointer after head points to new node
 			head.next.next = current;						//head.next.next points to old node, which connects to rest of list
 			return;
-		}
-		**/
+		} **/
 		
 		current = head;
 		prev = head;
@@ -69,7 +84,12 @@ public class LinkedList2
 				prev.next.next = current;						//point prev.next.next to the rest of the list
 				return;
 			}
-			//else if (current.key == key && !before)
+			/** removed for performance sake, will re-add later (inserts after)
+			else if (current.key == key && !before) {
+				Node2 temp = new Node2(key, fname, lname, balance);
+				temp.next = current.next;
+				current.next = temp;
+			} **/
 		}
 	}
 	
